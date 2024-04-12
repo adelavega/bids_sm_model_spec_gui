@@ -86,6 +86,8 @@ def process_combobox(label, widget_data):
     label_info = re.split("[(),]", label)
     label_info = [val.strip() for val in label_info if len(val) > 0]
     widget_data_get = widget_data.get()
+
+    val_save = None
     if ("req" in label_info) and (len(widget_data_get) == 0):
         messagebox.showwarning(
             f"Entry {label}", f"{label} is required for the model spec"

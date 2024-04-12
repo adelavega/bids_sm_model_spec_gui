@@ -1,10 +1,9 @@
-import tkinter as tk
-from tkinter import messagebox
 import ttkbootstrap as tb
 from ttkbootstrap.constants import BOTH, YES
 from ttkbootstrap.validation import add_regex_validation
 from ttkbootstrap.style import Bootstyle
 from ttkbootstrap.scrolled import ScrolledFrame
+from ttkbootstrap.utility import enable_high_dpi_awareness
 from functools import partial
 
 
@@ -13,13 +12,21 @@ from input_setup import CreateInputWidgets
 from nodes_transformations_setup import AddNode
 from utils import CollapsingFrame, make_button
 from make_json import make_json
+from sys import platform
 
 from edges_setup import AddEdgeWidgets
-
 # GUI window
+
 main_window = tb.Window(themename="superhero", minsize=(300, 1))
+
+if platform == "linux" or platform == "linux2":
+    enable_high_dpi_awareness(main_window, scaling=2)
+    main_window.geometry("2500x2136")
+
+else:
+    main_window.geometry("1400x950")
+
 main_window.title("BidsSM maker")
-main_window.geometry("1400x950")
 
 # Turn it into a scrolled frame
 scrolling_window = DoubleScrolledFrame(main_window)

@@ -1,8 +1,8 @@
 import collections
 import ttkbootstrap as tb
 import numpy as np
-from tkinter import messagebox
-from ttkbootstrap.constants import *
+from tkinter import messagebox, ttk
+from ttkbootstrap.constants import BOTH, YES, NO, SECONDARY, X, LEFT
 from utils import (
     CreateCheckbuttonRow,
     create_label,
@@ -19,6 +19,7 @@ label_width = 25
 
 class AddNode:
     def __init__(self, master):
+        import ttkbootstrap as tb
         import collections
 
         self.number = 0  # I don't think this is used
@@ -127,9 +128,8 @@ class AddNode:
         current_contrast = {}
         row_of_contrast_frames_holder = tb.Frame(frame)
         row_of_contrast_frames_holder.pack(fill=X, expand=NO, pady=5)
-        ix = f"node_{self.number_of_nodes}_num_contrasts"
         create_label(
-            f"Contrast {self.contrast_counter[ix]}:",
+            f'Contrast {self.contrast_counter[f"node_{self.number_of_nodes}_num_contrasts"]}:',
             row_of_contrast_frames_holder,
             frame_pack="left",
         )
@@ -244,22 +244,18 @@ class AddTransformationWidgets:
                 frame_pack="top",
                 label_left=True,
             )
-        # This frame is within the parent frame (likely a collapsable frame)
-        row_of_frames_holder = tb.Frame(self.master)
-        row_of_frames_holder.pack(fill=X, expand=NO, pady=5)
+            # Initialize tab frames
+            self.transformations_notebook = ttk.Notebook(self.master)
+            self.transformations_notebook.pack(side=LEFT, pady=5, padx=300)
 
-        # Label the row with the transformation number
-        form_field_label = tb.Label(
-            master=row_of_frames_holder,
-            text=f"Transformation {self.number + 1}:",
-            width=label_width,
-        )
-        form_field_label.pack(side=LEFT, expand=NO, pady=5, padx=5)
+        # Create a new tab
+        notebook_frame = tb.Frame(self.transformations_notebook, width=1000, height=300)
+        notebook_frame.pack(fill=BOTH, expand=1)
 
         # Create dropdown with transformation names
         transformation_values = list(self.transformation_widget_dictionary.keys())
         transformation_combo = create_label_combobox(
-            row_of_frames_holder,
+            notebook_frame,
             "Name",
             transformation_values,
             frame_pack="left",
@@ -270,9 +266,12 @@ class AddTransformationWidgets:
             partial(
                 self.populate_transformation_fields,
                 transformation=transformation_combo,
-                row_holder=row_of_frames_holder,
+                row_holder=notebook_frame,
                 widget_output_handle=self.number,
             ),
+        )
+        self.transformations_notebook.add(
+            notebook_frame, text=f"Transformation {self.number + 1}"
         )
         self.number += 1
 
