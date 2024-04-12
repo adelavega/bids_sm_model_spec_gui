@@ -111,7 +111,7 @@ class AddNode():
         current_contrast = {}
         row_of_contrast_frames_holder = tb.Frame(frame)
         row_of_contrast_frames_holder.pack(fill=X, expand=NO, pady=5)
-        create_label(f'Contrast {self.contrast_counter[f'node_{self.number_of_nodes}_num_contrasts']}:', 
+        create_label(f'Contrast {self.contrast_counter[f"node_{self.number_of_nodes}_num_contrasts"]}:', 
                      row_of_contrast_frames_holder, frame_pack='left')
         contrast_widgets = {
             'Name (req, str)': {'label': 'Name (req, str)'},
